@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
@@ -58,7 +57,7 @@ public class WebShotService extends Service {
         frame.addView(webView);
         winManager.addView(frame, params);
 
-        String url = "https://trends.google.com/trends/hottrends/visualize?pn=p15&nrow=5&ncol=5";
+        String url = "https://trends.google.com/trends/hottrends/visualize?nrow=2&ncol=3&pn=p9";
         webView.loadUrl(url);
         Toast.makeText(this, "WebWidget load: " + url, Toast.LENGTH_SHORT).show();
 
@@ -69,14 +68,12 @@ public class WebShotService extends Service {
         public void onPageFinished(WebView view, String url) {
             final Point p = new Point();
             winManager.getDefaultDisplay().getSize(p);
-
             webView.measure(View.MeasureSpec.makeMeasureSpec((p.x < p.y ? p.y : p.x),
                     View.MeasureSpec.EXACTLY),
-                    View.MeasureSpec.makeMeasureSpec((p.x < p.y ? p.x : p.y),
-                            View.MeasureSpec.EXACTLY));
-            webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
+                    View.MeasureSpec.makeMeasureSpec((p.x < p.y ? p.x : p.y), View.MeasureSpec.EXACTLY));
 
-            webView.postDelayed(capture, INTERVAL);
+            webView.layout(0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight());
+            webView.postDelayed(capture, 3000);
         }
     };
 
